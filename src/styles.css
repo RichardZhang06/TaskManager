@@ -32,3 +32,4 @@ li[draggable="true"] { cursor: grab; }
 li.dragging { opacity: .35; }
 li.drop-before { box-shadow: 0 -2px 0 #0a84ff; }
 li.drop-after { box-shadow: 0 2px 0 #0a84ff; }
+body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; height: 40px; -webkit-app-region: drag; }
