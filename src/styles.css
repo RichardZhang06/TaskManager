@@ -28,3 +28,7 @@ li:hover .due.empty { opacity: .5; }
 .due.today { color: #ff9f0a; border-color: #ff9f0a; opacity: 1; }
 li.done .due { opacity: .4; color: inherit; border-color: #8884; }
 #sort { margin-left: auto; font: inherit; color: inherit; background: #8882; border: 0; border-radius: 6px; padding: 5px 8px; }
+li[draggable="true"] { cursor: grab; }
+li.dragging { opacity: .35; }
+li.drop-before { box-shadow: 0 -2px 0 #0a84ff; }
+li.drop-after { box-shadow: 0 2px 0 #0a84ff; }

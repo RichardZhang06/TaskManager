@@ -1,6 +1,7 @@
 let tasks = [];
 let filter = 'all';
 let sort = 'newest';
+let dragId = null;
 try { sort = localStorage.getItem('sort') || 'newest'; } catch {}
 
 const $ = (id) => document.getElementById(id);
@@ -52,6 +53,38 @@ function render() {
     due.onchange = () => { t.due = due.value || null; persist(); render(); };
 
     li.append(cb, label, due, del);
+
+    if (sort === 'newest') {
+      li.draggable = true;
+      li.ondragstart = (e) => {
+        dragId = t.id;
+        e.dataTransfer.effectAllowed = 'move';
+        li.classList.add('dragging');
+      };
+      li.ondragend = () => { dragId = null; render(); };
+      li.ondragover = (e) => {
+        if (!dragId || dragId === t.id) return;
+        e.preventDefault();
+        const r = li.getBoundingClientRect();
+        const after = e.clientY > r.top + r.height / 2;
+        li.classList.toggle('drop-after', after);
+        li.classList.toggle('drop-before', !after);
+      };
+      li.ondragleave = () => li.classList.remove('drop-before', 'drop-after');
+      li.ondrop = (e) => {
+        e.preventDefault();
+        if (!dragId || dragId === t.id) return;
+        const r = li.getBoundingClientRect();
+        const after = e.clientY > r.top + r.height / 2;
+        const from = tasks.findIndex((x) => x.id === dragId);
+        const [moved] = tasks.splice(from, 1);
+        const to = tasks.findIndex((x) => x.id === t.id);
+        tasks.splice(after ? to + 1 : to, 0, moved);
+        dragId = null;
+        persist();
+        render();
+      };
+    }
     list.append(li);
   }
   const left = tasks.filter((t) => !t.done).length;
