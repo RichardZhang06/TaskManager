@@ -21,7 +21,6 @@ ipcMain.handle('tasks:save', (_e, tasks) => saveTasks(tasks));
 
 function createWindow() {
   const win = new BrowserWindow({
-    icon: path.join(__dirname, '..', 'build', 'icon.png'),
     width: 560,
     height: 640,
     titleBarStyle: 'hiddenInset',
@@ -35,7 +34,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  if (process.platform === 'darwin') {
+  if (process.platform === 'darwin' && !app.isPackaged) {
     app.dock.setIcon(path.join(__dirname, '..', 'build', 'icon.png'));
   }
   createWindow();
