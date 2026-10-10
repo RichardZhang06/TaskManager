@@ -1,0 +1,21 @@
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 44px 20px 20px;
+  font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex; flex-direction: column; height: 100vh;
+}
+header { display: flex; align-items: baseline; justify-content: space-between; -webkit-app-region: drag; }
+h1 { margin: 0 0 12px; font-size: 24px; }
+#count { opacity: .6; }
+#input { width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 8px; border: 1px solid #8884; background: transparent; color: inherit; }
+nav { display: flex; gap: 6px; margin: 12px 0; }
+button { font: inherit; color: inherit; background: #8882; border: 0; border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+button.active { background: #0a84ff; color: #fff; }
+ul { list-style: none; margin: 0; padding: 0; flex: 1; overflow-y: auto; }
+li { display: flex; align-items: center; gap: 10px; padding: 9px 4px; border-bottom: 1px solid #8882; }
+li span { flex: 1; word-break: break-word; }
+li.done span { text-decoration: line-through; opacity: .5; }
+li .del { opacity: 0; padding: 2px 8px; }
+li:hover .del { opacity: 1; }
+footer { padding-top: 10px; text-align: right; }

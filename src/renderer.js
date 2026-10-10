@@ -1,0 +1,58 @@
+let tasks = [];
+let filter = 'all';
+
+const $ = (id) => document.getElementById(id);
+const list = $('list');
+
+const persist = () => window.api.saveTasks(tasks);
+
+function render() {
+  list.textContent = '';
+  const shown = tasks.filter((t) =>
+    filter === 'all' ? true : filter === 'done' ? t.done : !t.done);
+
+  for (const t of shown) {
+    const li = document.createElement('li');
+    if (t.done) li.className = 'done';
+
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = t.done;
+    cb.onchange = () => { t.done = cb.checked; persist(); render(); };
+
+    const label = document.createElement('span');
+    label.textContent = t.text;
+
+    const del = document.createElement('button');
+    del.className = 'del';
+    del.textContent = '✕';
+    del.onclick = () => { tasks = tasks.filter((x) => x.id !== t.id); persist(); render(); };
+
+    li.append(cb, label, del);
+    list.append(li);
+  }
+  const left = tasks.filter((t) => !t.done).length;
+  $('count').textContent = `${left} left`;
+}
+
+$('form').onsubmit = (e) => {
+  e.preventDefault();
+  const text = $('input').value.trim();
+  if (!text) return;
+  tasks.unshift({ id: Date.now().toString(36), text, done: false });
+  $('input').value = '';
+  persist();
+  render();
+};
+
+$('filters').onclick = (e) => {
+  if (!e.target.dataset.filter) return;
+  filter = e.target.dataset.filter;
+  document.querySelectorAll('#filters button').forEach((b) =>
+    b.classList.toggle('active', b === e.target));
+  render();
+};
+
+$('clear').onclick = () => { tasks = tasks.filter((t) => !t.done); persist(); render(); };
+
+window.api.loadTasks().then((loaded) => { tasks = loaded; render(); });
