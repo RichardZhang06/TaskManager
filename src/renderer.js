@@ -4,6 +4,12 @@ let filter = 'all';
 const $ = (id) => document.getElementById(id);
 const list = $('list');
 
+const todayStr = () => {
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
+
 const persist = () => window.api.saveTasks(tasks);
 
 function render() {
@@ -28,7 +34,16 @@ function render() {
     del.textContent = '✕';
     del.onclick = () => { tasks = tasks.filter((x) => x.id !== t.id); persist(); render(); };
 
-    li.append(cb, label, del);
+    const due = document.createElement('input');
+    due.type = 'date';
+    due.className = 'due';
+    due.value = t.due || '';
+    if (!t.due) due.classList.add('empty');
+    else if (!t.done && t.due < todayStr()) due.classList.add('overdue');
+    else if (!t.done && t.due === todayStr()) due.classList.add('today');
+    due.onchange = () => { t.due = due.value || null; persist(); render(); };
+
+    li.append(cb, label, due, del);
     list.append(li);
   }
   const left = tasks.filter((t) => !t.done).length;
@@ -39,8 +54,9 @@ $('form').onsubmit = (e) => {
   e.preventDefault();
   const text = $('input').value.trim();
   if (!text) return;
-  tasks.unshift({ id: Date.now().toString(36), text, done: false });
+  tasks.unshift({ id: Date.now().toString(36), text, done: false, due: $('due').value || null });
   $('input').value = '';
+  $('due').value = '';
   persist();
   render();
 };

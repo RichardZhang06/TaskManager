@@ -8,7 +8,8 @@ body {
 header { display: flex; align-items: baseline; justify-content: space-between; -webkit-app-region: drag; }
 h1 { margin: 0 0 12px; font-size: 24px; }
 #count { opacity: .6; }
-#input { width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 8px; border: 1px solid #8884; background: transparent; color: inherit; }
+#form { display: flex; gap: 8px; }
+#input { flex: 1; min-width: 0; padding: 10px 12px; font-size: 14px; border-radius: 8px; border: 1px solid #8884; background: transparent; color: inherit; }
 nav { display: flex; gap: 6px; margin: 12px 0; }
 button { font: inherit; color: inherit; background: #8882; border: 0; border-radius: 6px; padding: 5px 10px; cursor: pointer; }
 button.active { background: #0a84ff; color: #fff; }
@@ -19,3 +20,10 @@ li.done span { text-decoration: line-through; opacity: .5; }
 li .del { opacity: 0; padding: 2px 8px; }
 li:hover .del { opacity: 1; }
 footer { padding-top: 10px; text-align: right; }
+#due, .due { font: inherit; color: inherit; background: transparent; border: 1px solid #8884; border-radius: 8px; padding: 6px 8px; }
+.due { font-size: 12px; padding: 2px 6px; border-radius: 6px; opacity: .7; }
+.due.empty { opacity: 0; }
+li:hover .due.empty { opacity: .5; }
+.due.overdue { color: #ff453a; border-color: #ff453a; opacity: 1; }
+.due.today { color: #ff9f0a; border-color: #ff9f0a; opacity: 1; }
+li.done .due { opacity: .4; color: inherit; border-color: #8884; }
