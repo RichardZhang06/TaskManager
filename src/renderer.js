@@ -1,5 +1,7 @@
 let tasks = [];
 let filter = 'all';
+let sort = 'newest';
+try { sort = localStorage.getItem('sort') || 'newest'; } catch {}
 
 const $ = (id) => document.getElementById(id);
 const list = $('list');
@@ -16,6 +18,12 @@ function render() {
   list.textContent = '';
   const shown = tasks.filter((t) =>
     filter === 'all' ? true : filter === 'done' ? t.done : !t.done);
+
+  if (sort === 'due') {
+    // Soonest first; tasks without a due date go last. Array.sort is stable,
+    // so ties keep their newest-first order.
+    shown.sort((a, b) => (a.due || '9999-99-99').localeCompare(b.due || '9999-99-99'));
+  }
 
   for (const t of shown) {
     const li = document.createElement('li');
@@ -66,6 +74,13 @@ $('filters').onclick = (e) => {
   filter = e.target.dataset.filter;
   document.querySelectorAll('#filters button').forEach((b) =>
     b.classList.toggle('active', b === e.target));
+  render();
+};
+
+$('sort').value = sort;
+$('sort').onchange = () => {
+  sort = $('sort').value;
+  try { localStorage.setItem('sort', sort); } catch {}
   render();
 };
 

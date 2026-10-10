@@ -27,3 +27,4 @@ li:hover .due.empty { opacity: .5; }
 .due.overdue { color: #ff453a; border-color: #ff453a; opacity: 1; }
 .due.today { color: #ff9f0a; border-color: #ff9f0a; opacity: 1; }
 li.done .due { opacity: .4; color: inherit; border-color: #8884; }
+#sort { margin-left: auto; font: inherit; color: inherit; background: #8882; border: 0; border-radius: 6px; padding: 5px 8px; }
