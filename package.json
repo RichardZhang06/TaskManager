@@ -15,7 +15,8 @@
       "src/**/*"
     ],
     "mac": {
-      "category": "public.app-category.productivity"
+      "category": "public.app-category.productivity",
+      "icon": "build/icon.icns"
     }
   },
   "license": "UNLICENSED",

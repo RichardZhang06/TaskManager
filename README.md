@@ -11,5 +11,4 @@ A local-only task manager built with Electron. Tasks are stored in a JSON file i
     npm run dist        # produces dist/mac-arm64/Task Manager.app
     npm run dist:dmg    # produces a .dmg installer
 
-Drag `Task Manager.app` into /Applications. The app is unsigned, so on first launch
-right-click it and choose Open.
+Drag `Task Manager.app` into /Applications. The app is unsigned, so on first launch right-click it and choose Open.
